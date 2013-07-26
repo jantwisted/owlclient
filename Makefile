@@ -3,8 +3,8 @@ CC=cc
 
 all: owlclient
 
-owlclient: error.o owl_client.o owl_echo.o owl_wrap.o owl_term.o owl_cmd.o owl_run.o owl_task.o wrapstdio.o owl_read.o
-	$(CC) -o owlclient error.o owl_client.o owl_echo.o owl_wrap.o owl_term.o owl_cmd.o owl_run.o owl_task.o wrapstdio.o owl_read.o
+owlclient: error.o owl_client.o owl_echo.o owl_wrap.o owl_term.o owl_cmd.o owl_run.o owl_task.o wrapstdio.o owl_read.o owl_help.o
+	$(CC) -o owlclient error.o owl_client.o owl_echo.o owl_wrap.o owl_term.o owl_cmd.o owl_run.o owl_task.o wrapstdio.o owl_read.o owl_help.o
 
 error.o: error.c $(COM)
 	$(CC) -c $^
@@ -34,6 +34,9 @@ wrapstdio.o: wrapstdio.c $(COM)
 	$(CC) -c $^
 
 owl_read.o: owl_read.c $(COM)
+	$(CC) -c $^
+
+owl_help.o: owl_help.c $(COM)
 	$(CC) -c $^
 
 clean:

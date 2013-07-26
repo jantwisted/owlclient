@@ -9,7 +9,7 @@
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
 
-   Foobar is distributed in the hope that it will be useful,
+   OwlClient is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
@@ -19,14 +19,11 @@
 */
 #include "common.h"
 
-void xrun(char** cmd, char** opt, char** other)
+void xhelp()
 {
-  int sockfd;
-  if((strcasecmp(cmd, "CONNECT")==0)||(strcasecmp(cmd, "CONNECT\n")==0)){
-    sockfd = xconnect(opt, other);
-    xread(sockfd);
-  }else  if((strcasecmp(cmd, "HELP")==0)||(strcasecmp(cmd, "help\n")==0)){
-    xhelp();
-  }else 
-    Fputs("~uknown command, type 'help' for more information.\n",stdout);
+  Fputs("\nAvailable Commands\n\n",stdout);
+  Fputs("CONNECT <ip> <port> : connect to a server\n",stdout);
+  Fputs("HELP : more information\n",stdout);
+  Fputs("QUIT : exit from OwlClient\n",stdout);
+
 }
