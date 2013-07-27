@@ -21,12 +21,13 @@
 
 void xhelp()
 {
+  Fputs("\nOwlClient is a simple program which can send and receive messages from a server.\n This is specially designed to xml and json.\n",stdout);
   Fputs("\nAvailable Commands\n\n",stdout);
   Fputs("CONNECT <ip> <port> : connect to a server\n",stdout);
   Fputs("CONNECTR <ip> <port>: connect & read server\n",stdout);
   Fputs("WRITE: write a default message\n",stdout);
   Fputs("SEND: send \"message.dat\" to connected server\n",stdout);
   Fputs("HELP : more information\n",stdout);
-  Fputs("QUIT : exit from OwlClient\n",stdout);
+  Fputs("QUIT : exit from OwlClient\n\n",stdout);
   
 }
