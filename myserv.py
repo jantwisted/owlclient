@@ -15,5 +15,7 @@ while 1:
                 print line
                 if not line: break
                 conn.send(line)
+		data = conn.recv(1024)
+		print data
         conn.close()
 

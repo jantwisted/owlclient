@@ -19,7 +19,7 @@
 */
 #include "common.h"
 
-void xcommand(char** str){
+void xcommand(char** str, int *sockfd){
   char spacer[2]=" ";
   char* cmd;
   char* option;
@@ -32,5 +32,5 @@ void xcommand(char** str){
   other = strtok(NULL, spacer);
   other = (other==NULL)?"default":other;
   /*call xrun()*/
-  xrun(cmd, option, other);
+  xrun(cmd, option, other, sockfd);
 }

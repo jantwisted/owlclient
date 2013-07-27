@@ -23,7 +23,9 @@ void xhelp()
 {
   Fputs("\nAvailable Commands\n\n",stdout);
   Fputs("CONNECT <ip> <port> : connect to a server\n",stdout);
+  Fputs("CONNECTR <ip> <port>: connect & read server\n",stdout);
+  Fputs("WRITE: write a default message\n",stdout);
   Fputs("HELP : more information\n",stdout);
   Fputs("QUIT : exit from OwlClient\n",stdout);
-
+  
 }

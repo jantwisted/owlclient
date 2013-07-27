@@ -19,14 +19,18 @@
 */
 #include "common.h"
 
-void xrun(char** cmd, char** opt, char** other)
+void xrun(char** cmd, char** opt, char** other, int *sockfd)
 {
-  int sockfd;
+  //int sockfd;
   if((strcasecmp(cmd, "CONNECT")==0)||(strcasecmp(cmd, "CONNECT\n")==0)){
-    sockfd = xconnect(opt, other);
-    xread(sockfd);
-  }else  if((strcasecmp(cmd, "HELP")==0)||(strcasecmp(cmd, "help\n")==0)){
+    *sockfd = xconnect(opt, other);
+  }else if((strcasecmp(cmd, "CONNECTR")==0)||(strcasecmp(cmd, "CONNECTR\n")==0)){
+    *sockfd = xconnect(opt, other);
+    xread(*sockfd);
+  }else if(strcasecmp(cmd, "HELP\n")==0){
     xhelp();
-  }else 
+  }else if((strcasecmp(cmd, "WRITE")==0)||(strcasecmp(cmd, "WRITE\n")==0)){
+    xwrite(*sockfd, "example message\n");
+  }else
     Fputs("~uknown command, type 'help' for more information.\n",stdout);
 }

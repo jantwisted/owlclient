@@ -19,7 +19,7 @@
 */
 #include "common.h"
 
-void xterm(int sockfd)
+void xterm(int *sockfd)
 {
   char s[400];
   int c;
@@ -29,7 +29,6 @@ void xterm(int sockfd)
     if(strcasecmp(s,"quit\n")==0)
       break;
     if(strcmp(s,"\n")!=0)
-      xcommand(s);   
-      
+      xcommand(s, sockfd);    
   }
 }
