@@ -31,6 +31,8 @@ void xrun(char** cmd, char** opt, char** other, int *sockfd)
     xhelp();
   }else if((strcasecmp(cmd, "WRITE")==0)||(strcasecmp(cmd, "WRITE\n")==0)){
     xwrite(*sockfd, "example message\n");
+  }else if((strcasecmp(cmd, "SEND")==0)||(strcasecmp(cmd, "SEND\n")==0)){
+    xwrite(*sockfd, xfile_read());
   }else
     Fputs("~uknown command, type 'help' for more information.\n",stdout);
 }
