@@ -11,6 +11,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <signal.h>
+#include <stdlib.h>
 
 #ifdef	HAVE_PTHREAD_H
 #include	<pthread.h>
