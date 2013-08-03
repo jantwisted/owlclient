@@ -16,12 +16,13 @@
 
    You should have received a copy of the GNU General Public License
    along with OwlClient.  If not, see <http://www.gnu.org/licenses/>.
+
+   Note: All commands should be defined here
 */
 #include "common.h"
 
 void xrun(char** cmd, char** opt, char** other, int *sockfd)
 {
-  //int sockfd;
   if((strcasecmp(cmd, "CONNECT")==0)||(strcasecmp(cmd, "CONNECT\n")==0)){
     *sockfd = xconnect(opt, other);
   }else if((strcasecmp(cmd, "CONNECTR")==0)||(strcasecmp(cmd, "CONNECTR\n")==0)){
@@ -33,6 +34,9 @@ void xrun(char** cmd, char** opt, char** other, int *sockfd)
     xwrite(*sockfd, "example message\n");
   }else if((strcasecmp(cmd, "SEND")==0)||(strcasecmp(cmd, "SEND\n")==0)){
     xwrite(*sockfd, xfile_read());
+  }else if((strcasecmp(cmd, "SENDR")==0)||(strcasecmp(cmd, "SENDR\n")==0)){
+    xwrite(*sockfd, xfile_read());
+    xread(*sockfd);
   }else
     Fputs("~uknown command, type 'help' for more information.\n",stdout);
 }
