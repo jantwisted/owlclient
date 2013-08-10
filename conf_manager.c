@@ -17,11 +17,3 @@
    You should have received a copy of the GNU General Public License
    along with OwlClient.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "common.h"
-
-void xwrite(int sockfd, char** buf)
-{
-  if(write(sockfd, buf, strlen(buf))<0)
-    err_sys("server write error");
-  //  Fputs(buf, stdout);
-}
