@@ -37,6 +37,16 @@ void xrun(char** cmd, char** opt, char** other, int *sockfd)
   }else if((strcasecmp(cmd, "SENDR")==0)||(strcasecmp(cmd, "SENDR\n")==0)){
     xwrite(*sockfd, xfile_read());
     xread(*sockfd);
+  }else if((strcasecmp(cmd, "DEFAULT")==0)||(strcasecmp(cmd, "DEFAULT\n")==0)){
+    FILE *file;
+    file = fopen("config.ini","r+");
+    char* param1 = conf_read(file, "SERVER_IP");
+    char* param2 = conf_read(file, "SERVER_PORT");
+    fputs(param1,stdout);
+    fputs(param2,stdout);
+    fputs("\n",stdout);
+    if((strcasecmp(opt, "CONNECT")==0)||(strcasecmp(opt, "CONNECT\n")==0))
+      *sockfd = xconnect(get_value(param1),get_value(param2));
   }else
     Fputs("~uknown command, type 'help' for more information.\n",stdout);
 }

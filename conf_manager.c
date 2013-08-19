@@ -30,19 +30,25 @@ int get_count(char *, FILE*, int *);
 char* trim_string(char*);
 void read_file(FILE*,char**);
 void conf_save(FILE*, char*, char*);
+char* get_value(char* );
+char* conf_read(FILE*, char *);
 
-void conf_read(FILE* file, char *param, char div)
+char* conf_read(FILE* file, char *param)
 {
   char *buffer;
   buffer = (char*) malloc(SIZE);
   char *line = NULL;
   size_t len;
   size_t read;
-  
   while((read=getline(&line, &len, file))!=-1)
     {
-      fputs(line,stdout);
+      if (strcmp(trim_string(get_prop(line)), param)==0)
+	{
+	  return line;
+	}
     }
+  return NULL;
+
 }
 
 
@@ -74,6 +80,17 @@ char* get_prop(char* buff)
   char* prop = strtok(buff2, "=");
   return prop;
 }
+
+char* get_value(char* buff)
+{
+  char *buff2 = strdup(buff);
+  char* prop = strtok(buff2, "=");
+  char* value = strtok(NULL,"=");
+  unsigned char value2[200];
+  strncpy(value2, value, 200);
+  return trim_string(value);
+}
+
 
 int get_count(char* buff, FILE* fp, int *line_size)
 {
