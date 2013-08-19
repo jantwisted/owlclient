@@ -22,6 +22,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include "common.h"
 #define SIZE 1000
 #define POS 11
 #define MAX_FILE_SIZE 1000

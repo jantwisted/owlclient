@@ -53,3 +53,19 @@ void	Pthread_once(pthread_once_t *, void (*)(void));
 
 #endif	
 
+char* conf_read(FILE*, char *);
+void xcommand(char*, int *);
+void xread(int);
+void Connect(int, const struct sockaddr *, socklen_t);
+int Socket(int, int, int);
+void Inet_pton(int, const char *, void *);
+void xhelp();
+void xterm(int *);
+const char* xfile_read();
+int xconnect(char*, char*);
+void conf_save (FILE* , char* , char* );
+char* get_prop(char*);
+char* get_value(char*);
+int get_count(char* , FILE* , int *);
+char* trim_string(char*);
+void read_file(FILE*, char** );

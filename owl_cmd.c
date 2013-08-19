@@ -19,7 +19,7 @@
 */
 #include "common.h"
 
-void xcommand(char** str, int *sockfd){
+void xcommand(char* str, int *sockfd){
   char spacer[2]=" ";
   char* cmd;
   char* option;

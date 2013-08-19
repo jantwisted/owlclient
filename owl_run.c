@@ -21,7 +21,7 @@
 */
 #include "common.h"
 
-void xrun(char** cmd, char** opt, char** other, int *sockfd)
+void xrun(char* cmd, char* opt, char* other, int *sockfd)
 {
   if((strcasecmp(cmd, "CONNECT")==0)||(strcasecmp(cmd, "CONNECT\n")==0)){
     *sockfd = xconnect(opt, other);
@@ -47,6 +47,10 @@ void xrun(char** cmd, char** opt, char** other, int *sockfd)
     fputs("\n",stdout);
     if((strcasecmp(opt, "CONNECT")==0)||(strcasecmp(opt, "CONNECT\n")==0))
       *sockfd = xconnect(get_value(param1),get_value(param2));
+  }else if((strcasecmp(cmd, "SAVESVR")==0)||(strcasecmp(cmd, "SAVESVR\n")==0)){
+    FILE *file;
+    file = fopen("config.ini","r+");
+    conf_save(file, opt, "SERVER_IP");
   }else
     Fputs("~uknown command, type 'help' for more information.\n",stdout);
 }

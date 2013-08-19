@@ -19,7 +19,7 @@
 */
 #include "common.h"
 
-void xwrite(int sockfd, char** buf)
+void xwrite(int sockfd, char* buf)
 {
   if(write(sockfd, buf, strlen(buf))<0)
     err_sys("server write error");

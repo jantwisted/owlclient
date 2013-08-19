@@ -18,7 +18,7 @@
    along with OwlClient.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "common.h"
-int xconnect(char** ip, char** port)
+int xconnect(char* ip, char* port)
 {
   char temp[100]="connecting to ";
   // socket descriptor begins here
