@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <signal.h>
 #include <stdlib.h>
+#include "cnfm.h"
 
 #ifdef	HAVE_PTHREAD_H
 #include	<pthread.h>

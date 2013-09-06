@@ -1,38 +1,31 @@
 /* 
-   <OwlClient is a simple program which can send and receive messages from a server. This is specially designed to xml and json.>
+   <Conf Manager is a library to read/write configuration files.>
    Copyright (C) <2013>  <Janith Perera>
 
-   This file is part of OwlClient.
+   This file is part of Conf Manager.
 
-   OwlClient is free software: you can redistribute it and/or modify
+   Conf Manager is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
 
-   OwlClient is distributed in the hope that it will be useful,
+   Conf Manager is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with OwlClient.  If not, see <http://www.gnu.org/licenses/>.
+   along with Conf Manager.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include "common.h"
-#define SIZE 1000
-#define POS 11
-#define MAX_FILE_SIZE 1000
-char * get_prop(char *);
-int get_count(char *, FILE*, int *);
-char* trim_string(char*);
-void read_file(FILE*,char**);
-void conf_save(FILE*, char*, char*);
-char* get_value(char* );
-char* conf_read(FILE*, char *);
+#include "cnfm.h"
+
+#ifdef CONF_SYMBOL
+# define SPACE " "
+# define APPENDER SPACE CONF_SYMBOL SPACE
+#else
+#define APPENDER " = "
+#define CONF_SYMBOL "="
+#endif
 
 char* conf_read(FILE* file, char *param)
 {
@@ -55,42 +48,50 @@ char* conf_read(FILE* file, char *param)
 
 void conf_save (FILE* pFile, char* value, char* prop)
 {
-  char * buff1=NULL;
-  char * buff2=NULL;
-  char  buff3[1000];
+  char * top_buffer=NULL;
+  char * low_buffer=NULL;
+  char  file_prop[SIZE];
   int nline;
-  buff1 = (char*) malloc(SIZE*sizeof(char));
-  buff2 = (char*) malloc(SIZE*sizeof(char));
-  read_file(pFile,&buff1);
-  strcpy(buff3,prop);
-  int loc = get_count(buff3,pFile,&nline);
-  strncpy(buff2, &buff1[nline], strlen(buff1)-nline);
+  top_buffer = (char*) malloc(SIZE*sizeof(char));
+  low_buffer = (char*) malloc(SIZE*sizeof(char));
+  read_file(pFile,&top_buffer);
+  strcpy(file_prop,prop);
+  int loc = get_count(file_prop,pFile,&nline);
+  strncpy(low_buffer, &top_buffer[nline], strlen(top_buffer)-nline);
   fseek ( pFile , loc , SEEK_SET );
-  fputs (" = ", pFile );
+  fputs (APPENDER, pFile );
   fputs (value, pFile );
   fseek (pFile, 0, SEEK_CUR);
-  fputs(buff2, pFile);
-  free(buff1);
-  free(buff2);
-  fclose ( pFile );
+  fputs(low_buffer, pFile);
+  int nzero = nline - (loc+strlen(value)+3);
+  for(;nzero>0;nzero--)
+     fputs(" ",pFile);
+  free(top_buffer);
+  free(low_buffer);
+  if (fclose(pFile) == EOF) {
+    fputs("Error closing input file.",stderr);
+  }
+  fputs("saved successfully\n",stdout);
 }
 
 char* get_prop(char* buff)
 {
   char *buff2 = strdup(buff);
-  char* prop = strtok(buff2, "=");
+  char* prop = strtok(buff2, CONF_SYMBOL);
   return prop;
 }
 
 char* get_value(char* buff)
 {
   char *buff2 = strdup(buff);
-  char* prop = strtok(buff2, "=");
-  char* value = strtok(NULL,"=");
-  unsigned char value2[200];
+   char* prop = strtok(buff2, CONF_SYMBOL);
+  strtok(buff2, "=");
+  char* value = strtok(NULL,CONF_SYMBOL);
+  char value2[200];
   strncpy(value2, value, 200);
   return trim_string(value);
 }
+
 
 
 int get_count(char* buff, FILE* fp, int *line_size)
@@ -137,7 +138,7 @@ char* trim_string(char* str)
 
 void read_file(FILE* fp, char** string)
 {
-  unsigned char *buffer = (char*)malloc(MAX_FILE_SIZE*sizeof(char));
+  char *buffer = (char*)malloc(MAX_FILE_SIZE*sizeof(char));
   int n;
   if(fp){
     n = fread(buffer, MAX_FILE_SIZE, 1, fp);
