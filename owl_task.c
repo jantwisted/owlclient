@@ -18,13 +18,14 @@
    along with OwlClient.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "common.h"
-int xconnect(char* ip, char* port)
+void xconnect(char* ip, char* port, int *sockfd)
 {
   char temp[100]="connecting to ";
   // socket descriptor begins here
-  int sockfd;
+  //  int sockfd;
+  // int * sockp;
   struct sockaddr_in servaddr;
-  sockfd = Socket(AF_INET, SOCK_STREAM, 0);
+  *sockfd = Socket(AF_INET, SOCK_STREAM, 0);
   bzero(&servaddr, sizeof(servaddr));
   servaddr.sin_family = AF_INET;
   servaddr.sin_port = htons(atoi(port));
@@ -36,5 +37,12 @@ int xconnect(char* ip, char* port)
   Fputs("\n",stdout);
   Connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr));
   //connect to the server
-  return sockfd;
+  //  sockp = &sockfd;
+  //  return sockp;
+}
+
+void xdisconnect(int *sockfd)
+{
+  close(*sockfd);
+  *sockfd = -1;
 }

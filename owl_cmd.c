@@ -32,5 +32,6 @@ void xcommand(char* str, int *sockfd){
   other = strtok(NULL, spacer);
   other = (other==NULL)?"default":other;
   /*call xrun()*/
+
   xrun(cmd, option, other, sockfd);
 }

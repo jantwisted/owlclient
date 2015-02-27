@@ -23,12 +23,19 @@ void xterm(int *sockfd)
 {
   char s[400];
   int c;
+  char* prmpt = "owl> ";
   while(1){
-    fputs("$ ",stdout);
+    fputs(prmpt,stdout);
     fgets(s,400,stdin);
     if(strcasecmp(s,"quit\n")==0)
       break;
-    if(strcmp(s,"\n")!=0)
-      xcommand(s, sockfd);    
+    if(strcmp(s,"\n")!=0){
+      xcommand(s, sockfd);
+      if (*sockfd > 0){
+	prmpt = "owl(connected)> ";
+      }else{
+	prmpt = "owl> ";
+      }
+    }
   }
 }

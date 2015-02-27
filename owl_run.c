@@ -24,19 +24,29 @@
 void xrun(char* cmd, char* opt, char* other, int *sockfd)
 {
   if((strcasecmp(cmd, "CONNECT")==0)||(strcasecmp(cmd, "CONNECT\n")==0)){
-    *sockfd = xconnect(opt, other);
+    xconnect(opt, other, sockfd);
   }else if((strcasecmp(cmd, "CONNECTR")==0)||(strcasecmp(cmd, "CONNECTR\n")==0)){
-    *sockfd = xconnect(opt, other);
-    xread(*sockfd);
+    xconnect(opt, other, sockfd);
+    xread(sockfd);
   }else if(strcasecmp(cmd, "HELP\n")==0){
     xhelp();
+  }else if(strcasecmp(cmd, "EXIT\n")==0){
+    xdisconnect(sockfd);
   }else if((strcasecmp(cmd, "WRITE")==0)||(strcasecmp(cmd, "WRITE\n")==0)){
-    xwrite(*sockfd, "example message\n");
+    xwrite(sockfd, "example message\n");
   }else if((strcasecmp(cmd, "SEND")==0)||(strcasecmp(cmd, "SEND\n")==0)){
-    xwrite(*sockfd, xfile_read());
+    int itr = atoi(opt);
+    while(itr>0){
+      xwrite(sockfd, xfile_read());
+      itr--;
+    }
   }else if((strcasecmp(cmd, "SENDR")==0)||(strcasecmp(cmd, "SENDR\n")==0)){
-    xwrite(*sockfd, xfile_read());
-    xread(*sockfd);
+    int itr = atoi(opt);    
+    while(itr>0){
+      xwrite(sockfd, xfile_read());
+      xread(sockfd);
+      itr--;
+    }
   }else if((strcasecmp(cmd, "DEFAULT")==0)||(strcasecmp(cmd, "DEFAULT\n")==0)){
     FILE *file;
     file = fopen("config.ini","r+");
@@ -46,7 +56,7 @@ void xrun(char* cmd, char* opt, char* other, int *sockfd)
     fputs(param2,stdout);
     fputs("\n",stdout);
     if((strcasecmp(opt, "CONNECT")==0)||(strcasecmp(opt, "CONNECT\n")==0))
-      *sockfd = xconnect(get_value(param1),get_value(param2));
+      xconnect(get_value(param1),get_value(param2), sockfd);
   }else if((strcasecmp(cmd, "SAVESVR")==0)||(strcasecmp(cmd, "SAVESVR\n")==0)){
     FILE *file;
     file = fopen("config.ini","r+");

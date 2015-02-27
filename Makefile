@@ -1,5 +1,5 @@
 COM=common.h
-CC=cc
+CC=gcc
 
 all: owlclient
 

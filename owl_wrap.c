@@ -22,10 +22,13 @@
 */
 #include"common.h"
 
-void Connect(int sockfd, const struct sockaddr *sa, socklen_t socklen)
+void Connect(int* sockfd, const struct sockaddr *sa, socklen_t socklen)
 {
-	if(connect(sockfd, sa, socklen)<0)
-		err_sys("connect error");
+  if(connect(*sockfd, sa, socklen)<0){
+    err_sys("connect error");
+        *sockfd = -1;
+  }
+  
 }
 
 int Socket(int family, int type, int protocol)
